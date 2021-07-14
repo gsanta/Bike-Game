@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Animator animator;
     public GameObject playerModel;
     public Transform modelGunPoint, gunHolder;
+    public GameObject gun;
+    public GameObject gunPointer;
 
     void Start()
     {
@@ -49,7 +51,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         UIController.instance.weaponTempSlider.maxValue = maxHeat;
 
-        //SwitchGun();
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
 
         currentHealth = maxHealth;
@@ -73,15 +74,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-            
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
 
-            //verticalRotStore += mouseInput.y;
-            //verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + horizontal, transform.rotation.eulerAngles.z);
 
-            //viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-
-            //Input.GetAxisRaw("Horizontal")
+            gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.eulerAngles.x, gun.transform.rotation.eulerAngles.y + Input.GetAxisRaw("Mouse X"), gun.transform.rotation.eulerAngles.z);
+         
             moveDir = new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
 
             if (Input.GetKey(KeyCode.LeftShift))
@@ -169,7 +167,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     selectedGun = 0;
                 }
-                //SwitchGun();
+
                 photonView.RPC("SetGun", RpcTarget.All, selectedGun);
             }
             else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
@@ -180,7 +178,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     selectedGun = allGuns.Length - 1;
                 }
-                //SwitchGun();
+
                 photonView.RPC("SetGun", RpcTarget.All, selectedGun);
             }
 
@@ -189,7 +187,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (Input.GetKeyDown((i + 1).ToString()))
                 {
                     selectedGun = i;
-                    //SwitchGun();
                     photonView.RPC("SetGun", RpcTarget.All, selectedGun);
                 }
             }
@@ -221,10 +218,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Shoot()
     {
-        Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
-        ray.origin = cam.transform.position;
+        Vector3 origin = gunPointer.transform.position;
+        Vector3 direction = allGuns[selectedGun].muzzleFlash.transform.rotation.eulerAngles;
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        Vector3 fwd = gunPointer.transform.TransformDirection(Vector3.forward);
+        Debug.DrawRay(gunPointer.transform.position, fwd * 50, Color.green);
+        //Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+        //ray.origin = cam.transform.position;
+        int layerMask = 1 << 8;
+        layerMask = ~layerMask;
+
+
+        if (Physics.Raycast(origin, fwd, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
             if (hit.collider.gameObject.tag == "Player")
             {
