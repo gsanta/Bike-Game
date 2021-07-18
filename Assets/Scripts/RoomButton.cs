@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class RoomButton : MonoBehaviour
 {
     public TMP_Text buttonText;
+    public NetworkingService networkingService;
 
     private RoomInfo info;
 
@@ -19,6 +20,6 @@ public class RoomButton : MonoBehaviour
 
     public void OpenRoom()
     {
-        Launcher.instance.JoinRoom(info);
+        networkingService.GetRoomManager().JoinRoom(info);
     }
 }
