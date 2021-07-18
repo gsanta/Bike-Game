@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private Vector3 moveDir, movement;
     public float jumpForce = 12f, gravityMod = 2.5f;
 
+    public GameObject package;
+
     public CharacterController charController;
 
     private Camera cam;
@@ -79,7 +81,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + horizontal, transform.rotation.eulerAngles.z);
 
             gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.eulerAngles.x, gun.transform.rotation.eulerAngles.y + Input.GetAxisRaw("Mouse X"), gun.transform.rotation.eulerAngles.z);
-         
+
             moveDir = new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
 
             if (Input.GetKey(KeyCode.LeftShift))
@@ -190,6 +192,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     photonView.RPC("SetGun", RpcTarget.All, selectedGun);
                 }
             }
+
+            if (Input.GetKeyDown("e"))
+            {
+                PickupPackage();
+            }
         }
 
         animator.SetBool("grounded", isGrounded);
@@ -204,6 +211,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
+        }
+    }
+
+    private void PickupPackage()
+    {
+        GameObject package = PackageService.instance.GetNearestPackage(gameObject);
+
+        if (package)
+        {
+            package.GetComponent<Pickup>().PickupItem(gameObject);
         }
     }
 
