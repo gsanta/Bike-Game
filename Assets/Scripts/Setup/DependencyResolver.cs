@@ -5,17 +5,14 @@ using UnityEngine;
 public class DependencyResolver : MonoBehaviour
 {
 
-    GameObject roomButtonObject;
-    private NetworkingService networkingService;
+    public GameObject roomButtonObject;
+    public NetworkingService networkingService;
 
-    void Start()
-    {
-        
-    }
+    public static DependencyResolver instance;
 
-    void Update()
+    private void Awake()
     {
-        
+        instance = this;
     }
 
     public void OnNetworkingServiceReady(NetworkingService _networkingService)

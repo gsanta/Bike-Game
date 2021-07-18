@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Launcher : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Launcher : MonoBehaviour
     public GameObject menuButtons;
     public TMP_Text loadingText;
     public GameObject createRoomScreen;
+    public GameObject mainMenuScreen;
     public TMP_InputField roomNameInput;
     public GameObject roomScreen;
     public TMP_Text roomNameText, playerNameLabel;
@@ -43,19 +45,22 @@ public class Launcher : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Launcher started");
         CloseMenus();
 
-        loadingScreen.SetActive(true);
-        loadingText.text = "Connecting To Network";
+        mainMenuScreen.SetActive(true);
+        //loadingScreen.SetActive(true);
+        //loadingText.text = "Connecting To Network";
 
 #if UNITY_EDITOR
-        roomTestButton.SetActive(true);
+        //roomTestButton.SetActive(true);
 #endif
     }
 
     public void OnSinglePlayerModeSelected()
     {
-
+        CloseMenus();
+        SceneManager.LoadScene(levelToPlay);
     }
 
     public void OnMultiplayerModeSelected()
@@ -72,6 +77,7 @@ public class Launcher : MonoBehaviour
         errorScreen.SetActive(false);
         roomBrowserScreen.SetActive(false);
         nameInputScreen.SetActive(false);
+        mainMenuScreen.SetActive(false);
     } 
 
     public void CloseErrorScreen()

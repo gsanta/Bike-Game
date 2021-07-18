@@ -21,11 +21,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }    
     }
 
-    void Update()
-    {
-        
-    }
-
     private NetworkingService GetNetworkingService()
     {
         return networkingObject.GetComponent<NetworkingService>();

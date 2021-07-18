@@ -44,6 +44,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Transform modelGunPoint, gunHolder;
     public GameObject gun;
     public GameObject gunPointer;
+    public PlayerData playerData;
+
+    private void Awake()
+    {
+        playerData = new PlayerData(photonView);
+    }
 
     void Start()
     {
@@ -53,27 +59,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         UIController.instance.weaponTempSlider.maxValue = maxHeat;
 
-        photonView.RPC("SetGun", RpcTarget.All, selectedGun);
-
         currentHealth = maxHealth;
 
-        if (photonView.IsMine)
+        if (playerData.IsMine)
         {
-            playerModel.SetActive(false);
-
             UIController.instance.healthSlider.maxValue = maxHealth;
             UIController.instance.healthSlider.value = currentHealth;
-        } else
-        {
-            gunHolder.parent = modelGunPoint;
-            gunHolder.localPosition = Vector3.zero;
-            gunHolder.localRotation = Quaternion.identity;
         }
     }
 
     void Update()
     {
-        if (photonView.IsMine)
+        if (playerData.IsMine)
         {
             mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
 
@@ -124,74 +121,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
-            if (!overHeated)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Shoot();
-                }
-
-                if (Input.GetMouseButton(0) && allGuns[selectedGun].isAutomatic)
-                {
-                    shotCounter -= Time.deltaTime;
-
-                    if (shotCounter <= 0)
-                    {
-                        Shoot();
-                    }
-                }
-
-                heatCounter -= coolRate * Time.deltaTime;
-            }
-            else
-            {
-                heatCounter -= overheatCoolRate * Time.deltaTime;
-
-                if (heatCounter <= 0)
-                {
-                    overHeated = false;
-
-                    UIController.instance.overheatedMessage.gameObject.SetActive(false);
-                }
-            }
-
             if (heatCounter < 0)
             {
                 heatCounter = 0;
             }
             UIController.instance.weaponTempSlider.value = heatCounter;
-
-            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
-            {
-                selectedGun += 1;
-
-                if (selectedGun >= allGuns.Length)
-                {
-                    selectedGun = 0;
-                }
-
-                photonView.RPC("SetGun", RpcTarget.All, selectedGun);
-            }
-            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
-            {
-                selectedGun -= 1;
-
-                if (selectedGun < 0)
-                {
-                    selectedGun = allGuns.Length - 1;
-                }
-
-                photonView.RPC("SetGun", RpcTarget.All, selectedGun);
-            }
-
-            for (int i = 0; i < allGuns.Length; i++)
-            {
-                if (Input.GetKeyDown((i + 1).ToString()))
-                {
-                    selectedGun = i;
-                    photonView.RPC("SetGun", RpcTarget.All, selectedGun);
-                }
-            }
 
             if (Input.GetKeyDown("e"))
             {
@@ -226,97 +160,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void LateUpdate()
     {
-        if (photonView.IsMine)
+        if (playerData.IsMine)
         {
             cam.transform.position = viewPoint.position;
             cam.transform.rotation = viewPoint.rotation;
-        }
-    }
-
-    private void Shoot()
-    {
-        Vector3 origin = gunPointer.transform.position;
-        Vector3 direction = allGuns[selectedGun].muzzleFlash.transform.rotation.eulerAngles;
-
-        Vector3 fwd = gunPointer.transform.TransformDirection(Vector3.forward);
-        Debug.DrawRay(gunPointer.transform.position, fwd * 50, Color.green);
-        //Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
-        //ray.origin = cam.transform.position;
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
-
-
-        if (Physics.Raycast(origin, fwd, out RaycastHit hit, Mathf.Infinity, layerMask))
-        {
-            if (hit.collider.gameObject.tag == "Player")
-            {
-                Debug.Log("Hit " + hit.collider.gameObject.GetPhotonView().Owner.NickName);
-                PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
-
-                hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage);
-            } else
-            {
-                GameObject bulletImpactObject = Instantiate(bulletImpact, hit.point + hit.normal * 0.02f, Quaternion.LookRotation(hit.normal, Vector3.up));
-                Destroy(bulletImpactObject, 10f);
-            }
-        }
-
-        shotCounter = allGuns[selectedGun].timeBetweenShots;;
-
-        heatCounter += allGuns[selectedGun].heatPerShot;
-
-        if (heatCounter >= maxHeat)
-        {
-            heatCounter = maxHeat;
-
-            overHeated = true;
-            UIController.instance.overheatedMessage.gameObject.SetActive(true);
-        }
-
-        allGuns[selectedGun].muzzleFlash.SetActive(true);
-        muzzleCounter = muzzleDisplayTime;
-    }
-
-    [PunRPC]
-    public void DealDamage(string damager, int damageAmount)
-    {
-        TakeDamage(damager, damageAmount);
-    }
-
-    public void TakeDamage(string damager, int damageAmount)
-    {
-        if (photonView.IsMine)
-        {
-            currentHealth -= damageAmount;
-
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0;
-                PlayerSpawner.instance.Die(damager);
-            }
-
-            UIController.instance.healthSlider.value = currentHealth;
-        }
-    }
-
-    void SwitchGun()
-    {
-        foreach(Gun gun in allGuns)
-        {
-            gun.gameObject.SetActive(false);
-        }
-
-        allGuns[selectedGun].gameObject.SetActive(true);
-        allGuns[selectedGun].muzzleFlash.SetActive(false);
-    }
-
-    [PunRPC]
-    public void SetGun(int gunToSwitchTo)
-    {
-        if (gunToSwitchTo < allGuns.Length)
-        {
-            selectedGun = gunToSwitchTo;
-            SwitchGun();
         }
     }
 }
