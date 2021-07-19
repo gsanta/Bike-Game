@@ -20,6 +20,6 @@ public class RoomButton : MonoBehaviour
 
     public void OpenRoom()
     {
-        networkingService.GetRoomManager().JoinRoom(info);
+        networkingService.GetRoomManager().JoinRoom(info.Name);
     }
 }

@@ -20,10 +20,10 @@ public class PlayerSpawner : MonoBehaviour
 
     void Start()
     {
-        //if (PhotonNetwork.IsConnected)
-        //{
+        if (PhotonNetwork.IsConnected)
+        {
             SpawnPlayer();
-        //}
+        }
     }
 
     public void SpawnPlayer()

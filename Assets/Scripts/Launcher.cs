@@ -25,6 +25,7 @@ public class Launcher : MonoBehaviour
     public GameObject roomScreen;
     public TMP_Text roomNameText, playerNameLabel;
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
+    public GameObject roomManagerObject;
 
     public GameObject errorScreen;
     public TMP_Text errorText;
@@ -53,19 +54,19 @@ public class Launcher : MonoBehaviour
         //loadingText.text = "Connecting To Network";
 
 #if UNITY_EDITOR
-        //roomTestButton.SetActive(true);
+        roomTestButton.SetActive(true);
 #endif
     }
 
     public void OnSinglePlayerModeSelected()
     {
         CloseMenus();
-        SceneManager.LoadScene(levelToPlay);
+        roomManagerObject.GetComponent<RoomManager>().SinglePlayerMode();
     }
 
     public void OnMultiplayerModeSelected()
     {
-
+        roomManagerObject.GetComponent<RoomManager>().MultiPlayerMode();
     }
 
     public void CloseMenus()

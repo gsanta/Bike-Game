@@ -531,7 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomManagerObject: {fileID: 1044013185}
   dependencyResolverObj: {fileID: 1154414305}
-  isMultiplayer: 0
+  isMultiplayer: 1
 --- !u!1 &191661208 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5670445085023906397, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
@@ -803,14 +803,14 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1723676454}
+      objectReference: {fileID: 1044013187}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenRoomCreate
+      value: CreateRoom
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1212,14 +1212,14 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1723676454}
+      objectReference: {fileID: 1044013187}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LeaveRoom
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3966,14 +3966,14 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1723676454}
+      objectReference: {fileID: 1044013187}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetNickname
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -5064,14 +5064,14 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1723676454}
+      objectReference: {fileID: 1044013187}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartGame
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6006,14 +6006,14 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1723676454}
+      objectReference: {fileID: 1044013187}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CreateRoom
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6540,7 +6540,7 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1723676454}
+      objectReference: {fileID: 1044013187}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -6551,7 +6551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

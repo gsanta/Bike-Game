@@ -9,21 +9,20 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
     public GameObject networkingObject;
     public GameObject launcherObject;
+    private bool singlePlayer = false;
     private bool hasSetNick;
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
     private List<RoomButton> allRoomButtons = new List<RoomButton>();
 
-    void Start()
+    public void MultiPlayerMode()
     {
-        if (GetNetworkingService().isMultiplayer)
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        }    
+        PhotonNetwork.ConnectUsingSettings();
     }
 
-    private NetworkingService GetNetworkingService()
+    public void SinglePlayerMode()
     {
-        return networkingObject.GetComponent<NetworkingService>();
+        singlePlayer = true;
+        PhotonNetwork.OfflineMode = true;
     }
 
     private Launcher GetLauncher()
@@ -33,40 +32,62 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Launcher launcher = GetLauncher();
+        if (singlePlayer)
+        {
+            Launcher launcher = GetLauncher();
 
-        launcher.CloseMenus();
-        launcher.menuButtons.SetActive(true);
-        PhotonNetwork.JoinLobby();
-        PhotonNetwork.AutomaticallySyncScene = true;
+            launcher.CloseMenus();
+            QuickJoin();
+            JoinRoom("Test");
+            StartGame();
+        }
+        else
+        {
+            Launcher launcher = GetLauncher();
 
-        launcher.loadingText.text = "Joining Lobby...";
+            launcher.CloseMenus();
+            launcher.menuButtons.SetActive(true);
+            PhotonNetwork.JoinLobby();
+            PhotonNetwork.AutomaticallySyncScene = true;
+
+            launcher.loadingText.text = "Joining Lobby...";
+        }
     }
 
     public override void OnJoinedLobby()
     {
         Launcher launcher = GetLauncher();
 
-        launcher.CloseMenus();
-        launcher.menuButtons.SetActive(true);
-
         PhotonNetwork.NickName = Random.Range(0, 1000).ToString();
 
-        if (!hasSetNick)
+        if (singlePlayer)
         {
-            Debug.Log("Nick not set");
-            launcher.CloseMenus();
-            launcher.nameInputScreen.SetActive(true);
-
-            if (PlayerPrefs.HasKey("playerName"))
-            {
-                launcher.nameInput.text = PlayerPrefs.GetString("playerName");
-            }
+            QuickJoin();
+            JoinRoom("Test");
+            StartGame();
         }
         else
         {
-            PhotonNetwork.NickName = PlayerPrefs.GetString("playerName");
+            launcher.CloseMenus();
+            launcher.menuButtons.SetActive(true);
+
+            if (!hasSetNick)
+            {
+                Debug.Log("Nick not set");
+                launcher.CloseMenus();
+                launcher.nameInputScreen.SetActive(true);
+
+                if (PlayerPrefs.HasKey("playerName"))
+                {
+                    launcher.nameInput.text = PlayerPrefs.GetString("playerName");
+                }
+            }
+            else
+            {
+                PhotonNetwork.NickName = PlayerPrefs.GetString("playerName");
+            }
         }
+
     }
 
     public void OpenRoomCreate()
@@ -222,11 +243,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void JoinRoom(RoomInfo inputInfo)
+    public void JoinRoom(string roomName)
     {
         Launcher launcher = GetLauncher();
 
-        PhotonNetwork.JoinRoom(inputInfo.Name);
+        PhotonNetwork.JoinRoom(roomName);
 
         launcher.CloseMenus();
         launcher.loadingText.text = "Joining Room";
@@ -267,5 +288,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             launcher.startButton.SetActive(false);
         }
+    }
+
+    public void QuickJoin()
+    {
+        PhotonNetwork.CreateRoom("Test");
     }
 }

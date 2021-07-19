@@ -15,7 +15,7 @@ public class PlayerData
     {
         get
         {
-            return true;//photonView.IsMine;
+            return photonView.IsMine;
         }
     }
 }
