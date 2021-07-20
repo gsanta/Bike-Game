@@ -513,7 +513,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1044013186}
+  - {fileID: 1835455704}
+  - {fileID: 1159317744}
   m_Father: {fileID: 1478889769}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -529,7 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a04ebbe9809349469f0bf2aea6db435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomManagerObject: {fileID: 1044013185}
+  roomManagerObject: {fileID: 0}
   dependencyResolverObj: {fileID: 1154414305}
   isMultiplayer: 0
 --- !u!1 &191661208 stripped
@@ -803,7 +804,7 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1044013187}
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CreateRoom
@@ -1212,7 +1213,7 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1044013187}
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LeaveRoom
@@ -3102,51 +3103,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026962640}
   m_CullTransparentMesh: 1
---- !u!1 &1044013185
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1044013186}
-  - component: {fileID: 1044013187}
-  m_Layer: 0
-  m_Name: Room Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1044013186
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044013185}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 187879005}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1044013187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044013185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf1a9ff5e35a774cb1217cf9c8cd6bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkingObject: {fileID: 187879004}
-  launcherObject: {fileID: 1723676449}
 --- !u!1 &1051177150
 GameObject:
   m_ObjectHideFlags: 0
@@ -3544,7 +3500,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomButtonObject: {fileID: 1651960249}
+  launcherObject: {fileID: 1723676449}
   networkingService: {fileID: 187879006}
+  singlePlayerRoomManagerObject: {fileID: 1159317742}
+  multiPlayerRoomManagerObject: {fileID: 1835455702}
+  selectNameButtonObject: {fileID: 1792119076}
+--- !u!1 &1159317742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1159317744}
+  - component: {fileID: 1159317743}
+  m_Layer: 0
+  m_Name: Single Player Room Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1159317743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159317742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8be16044cb54a446af183de8b314565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launcher: {fileID: 0}
+  isActive: 0
+--- !u!4 &1159317744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159317742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 187879005}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201804162
 GameObject:
   m_ObjectHideFlags: 0
@@ -3964,20 +3969,48 @@ PrefabInstance:
       value: Select Name Button
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1044013187}
+      objectReference: {fileID: 1792119081}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetNickname
+      value: ExecuteButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SelectNameButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: RoomManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906402, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_Pivot.x
@@ -5005,7 +5038,8 @@ MonoBehaviour:
   roomScreen: {fileID: 1436701518}
   roomNameText: {fileID: 1272144704}
   playerNameLabel: {fileID: 1801313459}
-  roomManagerObject: {fileID: 1044013185}
+  singlePlayerRoomManager: {fileID: 0}
+  multiPlayerRoomManager: {fileID: 0}
   errorScreen: {fileID: 1374512487}
   errorText: {fileID: 1136936442}
   roomBrowserScreen: {fileID: 1253894083}
@@ -5015,6 +5049,24 @@ MonoBehaviour:
   levelToPlay: Map 1
   startButton: {fileID: 191661208}
   roomTestButton: {fileID: 678050977}
+--- !u!1 &1792119076 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5670445085023906397, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
+  m_PrefabInstance: {fileID: 1317792362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1792119081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792119076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086eef16855ecb64887d1f47b7adf970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiPlayerRoomManager: {fileID: 0}
 --- !u!1001 &1799621256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5065,7 +5117,7 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1044013187}
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartGame
@@ -5421,6 +5473,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &1835455702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1835455704}
+  - component: {fileID: 1835455703}
+  m_Layer: 0
+  m_Name: Multi Player Room Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1835455703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835455702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefe452bb5df57f4f89d982d25fb191f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkingObject: {fileID: 0}
+  launcherObject: {fileID: 0}
+  launcher: {fileID: 0}
+  isActive: 0
+--- !u!4 &1835455704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835455702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 187879005}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1845820691
 GameObject:
   m_ObjectHideFlags: 0
@@ -6007,7 +6106,7 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1044013187}
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CreateRoom
@@ -6541,7 +6640,7 @@ PrefabInstance:
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1044013187}
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445085023906400, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
