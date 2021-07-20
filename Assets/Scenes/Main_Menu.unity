@@ -531,7 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomManagerObject: {fileID: 1044013185}
   dependencyResolverObj: {fileID: 1154414305}
-  isMultiplayer: 1
+  isMultiplayer: 0
 --- !u!1 &191661208 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5670445085023906397, guid: 0a14740d04e9c24459b464566f011b1b, type: 3}
@@ -5005,6 +5005,7 @@ MonoBehaviour:
   roomScreen: {fileID: 1436701518}
   roomNameText: {fileID: 1272144704}
   playerNameLabel: {fileID: 1801313459}
+  roomManagerObject: {fileID: 1044013185}
   errorScreen: {fileID: 1374512487}
   errorText: {fileID: 1136936442}
   roomBrowserScreen: {fileID: 1253894083}

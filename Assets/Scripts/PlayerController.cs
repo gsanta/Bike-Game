@@ -7,35 +7,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     public Transform viewPoint;
     public float mouseSensitivity = 1f;
-    private float verticalRotStore;
-    private Vector2 mouseInput;
     public float moveSpeed = 5f, runSpeed = 8f;
     private float activeMoveSpeed;
     private Vector3 moveDir, movement;
     public float jumpForce = 12f, gravityMod = 2.5f;
-
     public GameObject package;
-
     public CharacterController charController;
-
     private Camera cam;
-
     public Transform groundCheckPoint;
     private bool isGrounded;
     public LayerMask groundLayers;
-
     public GameObject bulletImpact;
-    private float shotCounter;
     public float muzzleDisplayTime;
     private float muzzleCounter;
-
     public float maxHeat = 10f, coolRate = 4f, overheatCoolRate = 5f;
     private float heatCounter;
-    private bool overHeated;
-
     public Gun[] allGuns;
     private int selectedGun;
-
     public GameObject playerHitImpact;
     public int maxHealth = 100;
     private int currentHealth;
@@ -72,8 +60,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (playerData.IsMine)
         {
-            mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-
             float horizontal = Input.GetAxisRaw("Horizontal");
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + horizontal, transform.rotation.eulerAngles.z);
 

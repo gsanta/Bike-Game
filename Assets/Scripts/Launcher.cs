@@ -25,7 +25,9 @@ public class Launcher : MonoBehaviour
     public GameObject roomScreen;
     public TMP_Text roomNameText, playerNameLabel;
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
-    public GameObject roomManagerObject;
+
+    public SinglePlayerRoomManager singlePlayerRoomManager;
+    public MultiPlayerRoomManager multiPlayerRoomManager;
 
     public GameObject errorScreen;
     public TMP_Text errorText;
@@ -61,12 +63,16 @@ public class Launcher : MonoBehaviour
     public void OnSinglePlayerModeSelected()
     {
         CloseMenus();
-        roomManagerObject.GetComponent<RoomManager>().SinglePlayerMode();
+        singlePlayerRoomManager.isActive = true;
+        multiPlayerRoomManager.isActive = false;
+        singlePlayerRoomManager.Connect();
     }
 
     public void OnMultiplayerModeSelected()
     {
-        roomManagerObject.GetComponent<RoomManager>().MultiPlayerMode();
+        singlePlayerRoomManager.isActive = false;
+        multiPlayerRoomManager.isActive = true;
+        multiPlayerRoomManager.Connect();
     }
 
     public void CloseMenus()
