@@ -22,6 +22,5 @@ public class SelectNameButton : MonoBehaviour
     public void ExecuteButton()
     {
         multiPlayerRoomManager.SetNickname();
-        Debug.Log("Execute button.");
     }
 }

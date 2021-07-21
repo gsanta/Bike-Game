@@ -9,11 +9,11 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
     public GameObject networkingObject;
     public GameObject launcherObject;
     public Launcher launcher;
+    public RoomBrowserPanel roomBrowserPanel;
     public bool isActive = false;
 
     private bool hasSetNick;
     private List<TMP_Text> allPlayerNames = new List<TMP_Text>();
-    private List<RoomButton> allRoomButtons = new List<RoomButton>();
 
 
     public void Connect() 
@@ -59,24 +59,9 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OpenRoomCreate()
+    public void CreateRoom(string name, RoomOptions roomOptions)
     {
-        launcher.CloseMenus();
-        launcher.createRoomScreen.SetActive(true);
-    }
-
-    public void CreateRoom()
-    {
-        if (!string.IsNullOrEmpty(launcher.roomNameInput.text))
-        {
-            RoomOptions options = new RoomOptions();
-            options.MaxPlayers = 8;
-            PhotonNetwork.CreateRoom(launcher.roomNameInput.text, options);
-
-            launcher.CloseMenus();
-            launcher.loadingText.text = "Creating room...";
-            launcher.loadingScreen.SetActive(true);
-        }
+        PhotonNetwork.CreateRoom(name, roomOptions);
     }
 
     public override void OnJoinedRoom()
@@ -127,6 +112,16 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
         allPlayerNames.Add(newPlayerLabel);
     }
 
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void StartGame()
+    {
+        PhotonNetwork.LoadLevel(launcher.levelToPlay);
+    }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         ListAllPlayers();
@@ -140,27 +135,7 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
         launcher.errorText.text = "Failed to Create Room: " + message;
     }
 
-    public void LeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-        launcher.CloseMenus();
-        launcher.loadingText.text = "Leaving Room";
-        launcher.loadingScreen.SetActive(true);
-    }
-
     public override void OnLeftRoom()
-    {
-        launcher.CloseMenus();
-        launcher.menuButtons.SetActive(true);
-    }
-
-    public void OpenRoomBrowser()
-    {
-        launcher.CloseMenus();
-        launcher.roomBrowserScreen.SetActive(true);
-    }
-
-    public void CloseRoomBrowser()
     {
         launcher.CloseMenus();
         launcher.menuButtons.SetActive(true);
@@ -168,35 +143,12 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (RoomButton rb in allRoomButtons)
-        {
-            Destroy(rb.gameObject);
-        }
-
-        allRoomButtons.Clear();
-
-        launcher.theRoomButton.gameObject.SetActive(false);
-
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (roomList[i].PlayerCount != roomList[i].MaxPlayers && !roomList[i].RemovedFromList)
-            {
-                RoomButton newButton = Instantiate(launcher.theRoomButton, launcher.theRoomButton.transform.parent);
-                newButton.SetButtonDetails(roomList[i]);
-                newButton.gameObject.SetActive(true);
-
-                allRoomButtons.Add(newButton);
-            }
-        }
+        roomBrowserPanel.UpdateRoomList(roomList);
     }
 
     public void JoinRoom(string roomName)
     {
         PhotonNetwork.JoinRoom(roomName);
-
-        launcher.CloseMenus();
-        launcher.loadingText.text = "Joining Room";
-        launcher.loadingScreen.SetActive(true);
     }
 
     public void SetNickname()
@@ -210,11 +162,6 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
 
             hasSetNick = true;
         }
-    }
-
-    public void StartGame()
-    {
-        PhotonNetwork.LoadLevel(launcher.levelToPlay);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
