@@ -1,7 +1,4 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class SinglePlayerRoomManager : MonoBehaviourPunCallbacks
 {
@@ -23,28 +20,8 @@ public class SinglePlayerRoomManager : MonoBehaviourPunCallbacks
         if (isActive)
         {
             launcher.CloseMenus();
-            QuickJoin();
-            JoinRoom("Test");
-            StartGame();
+            PhotonNetwork.CreateRoom("Test");
+            PhotonNetwork.LoadLevel(launcher.levelToPlay);
         }
-    }
-
-    public void JoinRoom(string roomName)
-    {
-        PhotonNetwork.JoinRoom(roomName);
-
-        launcher.CloseMenus();
-        launcher.loadingText.text = "Joining Room";
-        launcher.loadingScreen.SetActive(true);
-    }
-
-    public void StartGame()
-    {
-        PhotonNetwork.LoadLevel(launcher.levelToPlay);
-    }
-
-    public void QuickJoin()
-    {
-        PhotonNetwork.CreateRoom("Test");
     }
 }

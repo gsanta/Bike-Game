@@ -52,8 +52,6 @@ public class Launcher : MonoBehaviour
         CloseMenus();
 
         mainMenuScreen.SetActive(true);
-        //loadingScreen.SetActive(true);
-        //loadingText.text = "Connecting To Network";
 
 #if UNITY_EDITOR
         roomTestButton.SetActive(true);

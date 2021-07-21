@@ -5,7 +5,6 @@ public class DependencyResolver : MonoBehaviour
 
     public GameObject roomButtonObject;
     public GameObject launcherObject;
-    public NetworkingService networkingService;
     public GameObject singlePlayerRoomManagerObject;
     public GameObject multiPlayerRoomManagerObject;
     public GameObject selectNameButtonObject;
@@ -57,11 +56,6 @@ public class DependencyResolver : MonoBehaviour
 
         roomPanel.launcher = launcher;
         roomPanel.multiPlayerRoomManager = mpRoomManager;
-    }
-
-    public void OnNetworkingServiceReady(NetworkingService _networkingService)
-    {
-        networkingService = _networkingService;
     }
 
     public RoomButton GetRoomButton()

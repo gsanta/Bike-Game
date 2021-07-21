@@ -148,6 +148,7 @@ public class MultiPlayerRoomManager : MonoBehaviourPunCallbacks
 
     public void JoinRoom(string roomName)
     {
+        Debug.Log("Join room multiplayer");
         PhotonNetwork.JoinRoom(roomName);
     }
 
