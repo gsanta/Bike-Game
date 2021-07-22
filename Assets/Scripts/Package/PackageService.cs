@@ -7,11 +7,25 @@ public class PackageService : MonoBehaviour
 
     public static PackageService instance;
     public GameObject package1;
+    public GameObject package2;
+    public GameObject referencePackage;
     private const float limit = 2;
 
     PackageService()
     {
         instance = this;
+    }
+
+    public void Start()
+    {
+        referencePackage.SetActive(false);
+        SpawnPackage();
+    }
+
+    public void SpawnPackage()
+    {
+        DeliveryPackage newPackage = Instantiate(referencePackage.GetComponent<DeliveryPackage>(), referencePackage.transform);
+        newPackage.gameObject.SetActive(true);
     }
 
     public GameObject GetNearestPackage(GameObject player)
@@ -35,6 +49,6 @@ public class PackageService : MonoBehaviour
 
     private GameObject[] GetPackages()
     {
-        return new GameObject[] { package1 };
+        return new GameObject[] { package1, package2 };
     }
 }

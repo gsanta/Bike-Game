@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickup : MonoBehaviour
+public class DeliveryPackage : MonoBehaviour
 {
     public float throwForce = 600;
     public bool canHold = true;

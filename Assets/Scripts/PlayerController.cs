@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -140,7 +138,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (package)
         {
-            package.GetComponent<Pickup>().PickupItem(gameObject);
+            package.GetComponent<DeliveryPackage>().PickupItem(gameObject);
         }
     }
 

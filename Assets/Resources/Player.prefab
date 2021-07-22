@@ -225,13 +225,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6343729536068369103}
-  m_LocalRotation: {x: 0.28196222, y: 0.06320253, z: 0.01830842, w: 0.9571665}
-  m_LocalPosition: {x: -2.01, y: 6.25, z: -6.22}
+  m_LocalRotation: {x: 0.3076133, y: 0.063672245, z: 0.016601283, w: 0.9492336}
+  m_LocalPosition: {x: -2.53, y: 8.4, z: -9.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6343729537443903014}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 32.511, y: 8.958, z: 4.809}
+  m_LocalEulerAnglesHint: {x: 35.583, y: 9.276, z: 4.986}
 --- !u!1 &6343729536397482447
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +538,7 @@ MonoBehaviour:
   moveSpeed: 5
   runSpeed: 8
   jumpForce: 12
-  gravityMod: 2.5
+  gravityMod: 0.5
   package: {fileID: 0}
   charController: {fileID: 6343729537443903013}
   groundCheckPoint: {fileID: 6343729537487838202}
