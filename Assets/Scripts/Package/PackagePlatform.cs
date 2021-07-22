@@ -58,7 +58,8 @@ public class PackagePlatform : MonoBehaviour
     {
         Vector3 size = GetComponent<Collider>().bounds.size;
         Vector3 packageSize = package.GetComponent<Collider>().bounds.size;
-        Vector3 up = transform.up * (transform.localScale.y / 2f) + new Vector3(0, 0, 0);
+        Transform packageTransform = package.transform;
+        Vector3 up = transform.up * (transform.localScale.y / 2f) + packageTransform.up * (packageTransform.localScale.y / 2f);
         float x = (size.x / 2f - packageSize.x / 2f) * posX;
         float z = (size.z / 2f - packageSize.z / 2f) * posZ;
 
@@ -69,14 +70,5 @@ public class PackagePlatform : MonoBehaviour
         pos.z += z;
 
         return pos;
-    }
-
-    private void RemovePackageCollider(GameObject package)
-    {
-        Collider[] childColliders = package.GetComponentsInChildren<Collider>();
-        foreach (Collider collider in childColliders)
-        {
-            Destroy(collider);
-        }
     }
 }
