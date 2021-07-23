@@ -9,7 +9,6 @@ public class SpawnManager : MonoBehaviour
 
     SpawnManager()
     {
-        Debug.Log("SpawnManager created");
         instance = this;
     }
 
@@ -23,11 +22,6 @@ public class SpawnManager : MonoBehaviour
         {
             spawn.gameObject.SetActive(false);
         }
-    }
-
-    void Update()
-    {
-        
     }
 
     public Transform GetSpawnPoint()

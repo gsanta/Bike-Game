@@ -27,13 +27,6 @@ public class DeliveryPackage : MonoBehaviour
             item.GetComponent<Rigidbody>().velocity = Vector3.zero;
             item.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             item.transform.SetParent(tempParent.transform);
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                Vector3 throwDir = new Vector3(tempParent.transform.forward.x, 1, tempParent.transform.forward.z);
-                item.GetComponent<Rigidbody>().AddForce(throwDir * throwForce);
-                isHolding = false;
-            }
         } else
         {
             objectPos = item.transform.position;
@@ -41,12 +34,17 @@ public class DeliveryPackage : MonoBehaviour
             item.GetComponent<Rigidbody>().useGravity = true;
             item.transform.position = objectPos;
         }
-        // Check if isholding
     }
 
-    public void PickupItem(GameObject player)
+    public void ThrowPackage()
     {
-        Debug.Log(player.name);
+        Vector3 throwDir = new Vector3(tempParent.transform.forward.x, 1, tempParent.transform.forward.z);
+        item.GetComponent<Rigidbody>().AddForce(throwDir * throwForce);
+        isHolding = false;
+    }
+
+    public void PickupPackage(GameObject player)
+    {
         tempParent = player;
         isHolding = true;
         item.GetComponent<Rigidbody>().useGravity = false;

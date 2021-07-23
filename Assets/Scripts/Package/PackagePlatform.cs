@@ -10,15 +10,6 @@ public class PackagePlatform : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        //Vector3 size = GetComponent<Collider>().bounds.size;
-        //Debug.Log("x: " + size.x + " y: " + size.y + " z: " + size.z);
-        //Transform packageTrans = collision.gameObject.transform;
-
-        //Vector3 up = transform.up * (transform.localScale.y / 2f);
-        //Vector3 left = - transform.right * (transform.localScale.x / 2f) + packageTrans.right * (transform.localScale.x / 2f);
-        //Vector3 forward = transform.forward * (transform.localScale.z / 2f) - packageTrans.forward * (transform.localScale.z / 2f);
-        //collision.gameObject.transform.position = transform.position + up + left + forward;
-
         int x = packageList.Count % 3 - 1;
         int z = packageList.Count / 3 - 1;
 

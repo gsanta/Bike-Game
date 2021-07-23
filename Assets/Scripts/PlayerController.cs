@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public GameObject gun;
     public GameObject gunPointer;
     public PlayerData playerData;
+    private GameObject deliveryPackage;
 
     private void Awake()
     {
@@ -111,9 +112,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
             UIController.instance.weaponTempSlider.value = heatCounter;
 
-            if (Input.GetKeyDown("e"))
+            if (Input.GetMouseButtonDown(0))
             {
-                PickupPackage();
+                if (deliveryPackage)
+                {
+                    deliveryPackage.GetComponent<DeliveryPackage>().ThrowPackage();
+                    deliveryPackage = null;
+                } else
+                {
+                    PickupPackage();
+                }
             }
         }
 
@@ -134,11 +142,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void PickupPackage()
     {
-        GameObject package = PackageService.instance.GetNearestPackage(gameObject);
-
-        if (package)
+        if (!deliveryPackage)
         {
-            package.GetComponent<DeliveryPackage>().PickupItem(gameObject);
+            GameObject package = PackageService.instance.GetNearestPackage(gameObject);
+
+            if (package)
+            {
+                deliveryPackage = package;
+                deliveryPackage.GetComponent<DeliveryPackage>().PickupPackage(gameObject);
+            }
         }
     }
 
