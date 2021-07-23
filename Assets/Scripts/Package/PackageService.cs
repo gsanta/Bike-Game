@@ -28,13 +28,18 @@ public class PackageService : MonoBehaviour
         }
     }
 
+    public List<GameObject> GetPackages()
+    {
+        return packageList;
+    } 
+
     public void SpawnPackage()
     {
         Transform transform = spawnPoints[Random.Range(0, spawnPoints.Length)].transform;
         DeliveryPackage newPackage = Instantiate(referencePackage.GetComponent<DeliveryPackage>(), referencePackage.transform.parent);
         newPackage.transform.position = transform.position;
         newPackage.gameObject.SetActive(true);
-        newPackage.transform.parent = gameObject.transform;
+        newPackage.transform.SetParent(gameObject.transform);
         packageList.Add(newPackage.gameObject);
     }
 

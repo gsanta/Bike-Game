@@ -4,6 +4,8 @@ public class HomeController : MonoBehaviour
 {
     public GameObject homeObject;
     public GameObject environmentObject;
+    
+    [HideInInspector] public PackageService packageService;
 
     private bool isActive = false;
     // Start is called before the first frame update
@@ -37,10 +39,15 @@ public class HomeController : MonoBehaviour
             player.SetActive(false);
         }
 
+        foreach (GameObject package in packageService.GetPackages())
+        {
+            package.SetActive(false);
+        }
+
         environmentObject.SetActive(false);
         homeObject.SetActive(true);
-        Camera.main.transform.position = new Vector3(0, 6, 7);
-        Camera.main.transform.rotation = Quaternion.Euler(46f, 180f, 0);
+        Camera.main.transform.position = new Vector3(1.43f, 5.14f, 5.49f);
+        Camera.main.transform.rotation = Quaternion.Euler(33.723f, 193.305f, 0.129f);
     }
 
     private void CloseHome()
@@ -51,6 +58,11 @@ public class HomeController : MonoBehaviour
         foreach (GameObject player in PlayerSpawner.instance.GetPlayers())
         {
             player.SetActive(true);
+        }
+
+        foreach(GameObject package in packageService.GetPackages())
+        {
+            package.SetActive(true);
         }
     }
 }
