@@ -34,6 +34,7 @@ public class PackageService : MonoBehaviour
         DeliveryPackage newPackage = Instantiate(referencePackage.GetComponent<DeliveryPackage>(), referencePackage.transform.parent);
         newPackage.transform.position = transform.position;
         newPackage.gameObject.SetActive(true);
+        newPackage.transform.parent = gameObject.transform;
         packageList.Add(newPackage.gameObject);
     }
 

@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class HomeController : MonoBehaviour
 {
+    public GameObject homeObject;
+    public GameObject environmentObject;
+
+    private bool isActive = false;
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Home controller started");
-        gameObject.SetActive(false);
+        homeObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -14,10 +18,39 @@ public class HomeController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            //Debug.Log("Home button clicked");
-            //GameObject.Find("Environment").SetActive(false);
-            //GameObject.Find("Home").SetActive(true);
-            //canvasController.gameObject.SetActive(!canvasController.gameObject.activeSelf);
+            isActive = !isActive;
+
+            if (isActive)
+            {
+                DisplayHome();
+            } else
+            {
+                CloseHome();
+            }
+        }
+    }
+
+    private void DisplayHome()
+    {
+        foreach (GameObject player in PlayerSpawner.instance.GetPlayers())
+        {
+            player.SetActive(false);
+        }
+
+        environmentObject.SetActive(false);
+        homeObject.SetActive(true);
+        Camera.main.transform.position = new Vector3(0, 6, 7);
+        Camera.main.transform.rotation = Quaternion.Euler(46f, 180f, 0);
+    }
+
+    private void CloseHome()
+    {
+        homeObject.SetActive(false);
+        environmentObject.SetActive(true);
+
+        foreach (GameObject player in PlayerSpawner.instance.GetPlayers())
+        {
+            player.SetActive(true);
         }
     }
 }
