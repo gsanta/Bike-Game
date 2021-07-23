@@ -7,6 +7,8 @@ public class PlayerSpawner : MonoBehaviour
 {
 
     public static PlayerSpawner instance;
+    public UIController canvasController;
+    public GameObject homeControllerObject;
 
     private void Awake()
     {
@@ -31,6 +33,10 @@ public class PlayerSpawner : MonoBehaviour
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
 
         player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        PlayerController playerController = player.GetComponent<PlayerController>();
+
+        playerController.canvasController = canvasController;
+        playerController.homeControllerObject = homeControllerObject;
     }
 
     public void Die(string damager)

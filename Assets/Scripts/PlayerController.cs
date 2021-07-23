@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public GameObject gun;
     public GameObject gunPointer;
     public PlayerData playerData;
+
+    [HideInInspector] public UIController canvasController;
+    [HideInInspector] public GameObject homeControllerObject;
+
     private GameObject deliveryPackage;
 
     private void Awake()
@@ -127,6 +132,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         animator.SetBool("grounded", isGrounded);
         animator.SetFloat("speed", moveDir.magnitude);
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("Home button clicked");
+            Debug.Log(GameObject.Find("Environment"));
+            GameObject.Find("Environment").SetActive(false);
+            homeControllerObject.SetActive(true);
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

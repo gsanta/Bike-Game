@@ -562,6 +562,8 @@ MonoBehaviour:
   gunHolder: {fileID: 6343729537772930271}
   gun: {fileID: 952027382839380074}
   gunPointer: {fileID: 9122106254995068520}
+  canvasController: {fileID: 0}
+  homeControllerObject: {fileID: 0}
 --- !u!143 &6343729537443903013
 CharacterController:
   m_ObjectHideFlags: 0
