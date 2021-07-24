@@ -7,8 +7,15 @@ public class HomeController : MonoBehaviour
     
     [HideInInspector] public PackageService packageService;
 
+    private ObjectMover objectMover;
     private bool isActive = false;
     // Start is called before the first frame update
+
+    public HomeController()
+    {
+        objectMover = new ObjectMover();
+    }
+
     void Start()
     {
         Debug.Log("Home controller started");
@@ -29,6 +36,22 @@ public class HomeController : MonoBehaviour
             {
                 CloseHome();
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("HomeController mouse button down.");
+            objectMover.StartDrag(Input.mousePosition);
+        }
+
+        if (objectMover.IsDragging() && Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("HomeController mouse button down.");
+            objectMover.EndDrag();
+        }
+
+        if (objectMover.IsDragging() && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)) {
+            objectMover.Drag(Input.mousePosition);
         }
     }
 

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         cam = Camera.main;
 
@@ -146,10 +146,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.None;
         } else if (Cursor.lockState == CursorLockMode.None)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    Cursor.lockState = CursorLockMode.Locked;
+            //}
         }
     }
 
