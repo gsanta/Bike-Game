@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DeliveryPackage : MonoBehaviour
@@ -9,6 +7,8 @@ public class DeliveryPackage : MonoBehaviour
     public GameObject item;
     public GameObject tempParent;
     public bool isHolding = false;
+    public TaskController taskController;
+    public TaskObject taskObject;
 
     Vector3 objectPos;
     float distance;
@@ -45,10 +45,14 @@ public class DeliveryPackage : MonoBehaviour
 
     public void PickupPackage(GameObject player)
     {
+        Debug.Log("picking up package");
         tempParent = player;
         isHolding = true;
         item.GetComponent<Rigidbody>().useGravity = false;
         item.GetComponent<Rigidbody>().detectCollisions = true;
+        Debug.Log(taskObject);
+        Debug.Log(taskController);
+        taskController.AssignTask(taskObject);
     }
 
     public float GetDistanceTo(GameObject player)

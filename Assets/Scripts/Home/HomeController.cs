@@ -6,6 +6,7 @@ public class HomeController : MonoBehaviour
     public GameObject environmentObject;
     
     [HideInInspector] public PackageService packageService;
+    [HideInInspector] public TaskController taskController;
 
     private ObjectMover objectMover;
     private bool isActive = false;
@@ -18,7 +19,6 @@ public class HomeController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Home controller started");
         homeObject.SetActive(false);
     }
 
@@ -40,13 +40,11 @@ public class HomeController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("HomeController mouse button down.");
             objectMover.StartDrag(Input.mousePosition);
         }
 
         if (objectMover.IsDragging() && Input.GetMouseButtonUp(0))
         {
-            Debug.Log("HomeController mouse button down.");
             objectMover.EndDrag();
         }
 
@@ -62,9 +60,9 @@ public class HomeController : MonoBehaviour
             player.SetActive(false);
         }
 
-        foreach (GameObject package in packageService.GetPackages())
+        foreach (TaskObject task in taskController.tasks)
         {
-            package.SetActive(false);
+            task.deliveryPackage.gameObject.SetActive(false);
         }
 
         environmentObject.SetActive(false);
@@ -83,9 +81,9 @@ public class HomeController : MonoBehaviour
             player.SetActive(true);
         }
 
-        foreach(GameObject package in packageService.GetPackages())
+        foreach (TaskObject task in taskController.tasks)
         {
-            package.SetActive(true);
+            task.deliveryPackage.gameObject.SetActive(false);
         }
     }
 }

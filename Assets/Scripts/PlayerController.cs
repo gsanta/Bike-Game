@@ -18,19 +18,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public LayerMask groundLayers;
     public GameObject bulletImpact;
     public float muzzleDisplayTime;
-    private float muzzleCounter;
     public float maxHeat = 10f, coolRate = 4f, overheatCoolRate = 5f;
     private float heatCounter;
-    public Gun[] allGuns;
-    private int selectedGun;
     public GameObject playerHitImpact;
     public int maxHealth = 100;
-    private int currentHealth;
-    public Animator animator;
     public GameObject playerModel;
-    public Transform modelGunPoint, gunHolder;
-    public GameObject gun;
-    public GameObject gunPointer;
     public PlayerData playerData;
 
     [HideInInspector] public UIController canvasController;
@@ -48,16 +40,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //Cursor.lockState = CursorLockMode.Locked;
 
         cam = Camera.main;
-
-        UIController.instance.weaponTempSlider.maxValue = maxHeat;
-
-        currentHealth = maxHealth;
-
-        if (playerData.IsMine)
-        {
-            UIController.instance.healthSlider.maxValue = maxHealth;
-            UIController.instance.healthSlider.value = currentHealth;
-        }
     }
 
     void Update()
@@ -66,8 +48,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + horizontal, transform.rotation.eulerAngles.z);
-
-            gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.eulerAngles.x, gun.transform.rotation.eulerAngles.y + Input.GetAxisRaw("Mouse X"), gun.transform.rotation.eulerAngles.z);
 
             moveDir = new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
 
@@ -101,21 +81,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             charController.Move(movement * Time.deltaTime);
 
-            if (allGuns[selectedGun].muzzleFlash.activeInHierarchy)
-            {
-                muzzleCounter -= Time.deltaTime;
-
-                if (muzzleCounter <= 0)
-                {
-                    allGuns[selectedGun].muzzleFlash.SetActive(false);
-                }
-            }
-
             if (heatCounter < 0)
             {
                 heatCounter = 0;
             }
-            UIController.instance.weaponTempSlider.value = heatCounter;
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -129,17 +98,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
         }
-
-        animator.SetBool("grounded", isGrounded);
-        animator.SetFloat("speed", moveDir.magnitude);
-
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-            //Debug.Log("Home button clicked");
-            //Debug.Log(GameObject.Find("Environment"));
-            //GameObject.Find("Environment").SetActive(false);
-            //homeControllerObject.SetActive(true);
-        //}
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -155,6 +113,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void PickupPackage()
     {
+        Debug.Log("PlayerController pickup package");
         if (!deliveryPackage)
         {
             GameObject package = PackageService.instance.GetNearestPackage(gameObject);

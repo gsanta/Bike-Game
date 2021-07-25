@@ -1,15 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PackageService : MonoBehaviour
 {
 
     public static PackageService instance;
-    public GameObject package1;
-    public GameObject package2;
-    public List<GameObject> packageList = new List<GameObject>();
     public GameObject referencePackage;
     public GameObject[] spawnPoints;
+    [HideInInspector] public TaskController taskController;
     private const float limit = 2;
 
     PackageService()
@@ -20,7 +17,7 @@ public class PackageService : MonoBehaviour
     public void Start()
     {
         referencePackage.SetActive(false);
-        SpawnPackage();
+        //SpawnPackage();
 
         foreach (GameObject spawnPoint in spawnPoints)
         {
@@ -28,19 +25,17 @@ public class PackageService : MonoBehaviour
         }
     }
 
-    public List<GameObject> GetPackages()
+    public DeliveryPackage SpawnPackage()
     {
-        return packageList;
-    } 
-
-    public void SpawnPackage()
-    {
+        Debug.Log(taskController);
         Transform transform = spawnPoints[Random.Range(0, spawnPoints.Length)].transform;
         DeliveryPackage newPackage = Instantiate(referencePackage.GetComponent<DeliveryPackage>(), referencePackage.transform.parent);
+        newPackage.taskController = taskController;
         newPackage.transform.position = transform.position;
         newPackage.gameObject.SetActive(true);
         newPackage.transform.SetParent(gameObject.transform);
-        packageList.Add(newPackage.gameObject);
+
+        return newPackage;
     }
 
     public GameObject GetNearestPackage(GameObject player)
@@ -48,8 +43,9 @@ public class PackageService : MonoBehaviour
         float minDistance = float.MaxValue;
         GameObject minDistancePackage = null;
 
-        foreach (GameObject package in packageList)
+        foreach (TaskObject task in taskController.tasks)
         {
+            GameObject package = task.deliveryPackage.gameObject;
             float distance = Vector3.Distance(package.transform.position, player.transform.position);
             if (distance < minDistance)
             {

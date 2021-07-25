@@ -13,7 +13,6 @@ public class ObjectMover
         Ray ray = Camera.main.ScreenPointToRay(position);
         if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Furniture")))
         {
-            Debug.Log(hitInfo.collider.gameObject.name);
             movable = hitInfo.collider.gameObject;
             return true;
         }
@@ -32,18 +31,22 @@ public class ObjectMover
         Ray ray = Camera.main.ScreenPointToRay(position);
         if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Walls")))
         {
-            Collider collider = movable.GetComponent<Collider>();
 
-            Debug.Log(hitInfo.collider.gameObject.name);
-            if (hitInfo.collider.gameObject.name == "wall_right")
+            if (IsMovementAllowed(hitInfo.collider.gameObject))
             {
 
-                Vector3 offset = hitInfo.normal * collider.bounds.size.x;
-                Vector3 transform = hitInfo.point + offset;
-                movable.transform.position = transform;
-            } else
-            {
-                movable.transform.position = hitInfo.point;
+                Collider collider = movable.GetComponent<Collider>();
+
+                if (hitInfo.collider.gameObject.name == "wall_right")
+                {
+                    Vector3 offset = hitInfo.normal * collider.bounds.size.x;
+                    Vector3 transform = hitInfo.point + offset;
+                    movable.transform.position = transform;
+                }
+                else
+                {
+                    movable.transform.position = hitInfo.point;
+                }
             }
         }
     }
@@ -51,6 +54,34 @@ public class ObjectMover
     public bool IsDragging()
     {
         return movable != null;
+    }
+
+    private bool IsMovementAllowed(GameObject collidedObject)
+    {
+        CustomTag customTag = movable.GetComponent<CustomTag>();
+        
+        if (customTag.placements.Count == 0)
+        {
+            return true;
+        } else if (IsWall(collidedObject) && customTag.placements.Contains(CustomTag.placementWall))
+        {
+            return true;
+        } else if (IsFloor(collidedObject) && customTag.placements.Contains(CustomTag.placementFloor))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool IsWall(GameObject gameObject)
+    {
+        return gameObject.name.ToLower().StartsWith("wall");
+    }
+
+    private bool IsFloor(GameObject gameObject)
+    {
+        return gameObject.name.ToLower().StartsWith("floor");
     }
 
     //public void TestMovement(Vector3 position)

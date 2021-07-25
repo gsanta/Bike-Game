@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ public class PackagePlatform : MonoBehaviour
 
     private List<GameObject> packageList = new List<GameObject>();
     public GameObject packageServiceObject;
+    public GameObject destinationControllerObject;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -19,30 +20,19 @@ public class PackagePlatform : MonoBehaviour
         }
 
         Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
+        DeliveryPackage package = collision.gameObject.GetComponent<DeliveryPackage>();
         rigidbody.velocity = Vector3.zero;
         rigidbody.rotation = Quaternion.identity;
         rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         collision.gameObject.transform.position = GetPackageTransform(x, z, collision.gameObject);
         packageList.Add(collision.gameObject);
-        //RemovePackageCollider(collision.gameObject);
 
         collision.transform.rotation = Quaternion.identity;
 
-        packageServiceObject.GetComponent<PackageService>().SpawnPackage();
-        //Debug.Log("Collision detected with: " + collision.gameObject.name);
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "MyGameObjectName")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Do something here");
-        }
-
-        //Check for a match with the specific tag on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "MyGameObjectTag")
-        {
-            //If the GameObject has the same tag as specified, output this message in the console
-            Debug.Log("Do something else here");
-        }
+        DeliveryDestinationController destinationController = destinationControllerObject.GetComponent<DeliveryDestinationController>();
+        destinationController.TriggerPackageDelivered(package);
+            
+        //packageServiceObject.GetComponent<PackageService>().SpawnPackage();
     }
 
     private Vector3 GetPackageTransform(int posX, int posZ, GameObject package)
@@ -61,5 +51,21 @@ public class PackagePlatform : MonoBehaviour
         pos.z += z;
 
         return pos;
+    }
+
+    protected virtual void OnPackageAdded(PackageAddedEventArgs e)
+    {
+        EventHandler<PackageAddedEventArgs> handler = PackageAdded;
+        if (handler != null)
+        {
+            handler(this, e);
+        }
+    }
+
+    public event EventHandler<PackageAddedEventArgs> PackageAdded;
+
+    public class PackageAddedEventArgs : EventArgs
+    {
+        public DeliveryPackage Package { get; set; }
     }
 }
