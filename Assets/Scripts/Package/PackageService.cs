@@ -43,9 +43,9 @@ public class PackageService : MonoBehaviour
         float minDistance = float.MaxValue;
         GameObject minDistancePackage = null;
 
-        foreach (TaskObject task in taskController.tasks)
+        foreach (TaskButtonController task in taskController.tasks)
         {
-            GameObject package = task.deliveryPackage.gameObject;
+            GameObject package = task.taskInfo.deliveryPackage.gameObject;
             float distance = Vector3.Distance(package.transform.position, player.transform.position);
             if (distance < minDistance)
             {

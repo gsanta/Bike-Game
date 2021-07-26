@@ -7,7 +7,7 @@ public class DeliveryDestinationController : MonoBehaviour
 
     public void TriggerPackageDelivered(DeliveryPackage package)
     {
-        taskController.FinishTask(package.taskObject);
+        taskController.FinishTask(package.taskInfo);
         //PackageDeliveredEventArgs packageAddedEventArgs = new PackageDeliveredEventArgs();
         //packageAddedEventArgs.Package = package;
 

@@ -60,9 +60,9 @@ public class HomeController : MonoBehaviour
             player.SetActive(false);
         }
 
-        foreach (TaskObject task in taskController.tasks)
+        foreach (TaskButtonController taskButton in taskController.tasks)
         {
-            task.deliveryPackage.gameObject.SetActive(false);
+            taskButton.taskInfo.deliveryPackage.gameObject.SetActive(false);
         }
 
         environmentObject.SetActive(false);
@@ -81,9 +81,9 @@ public class HomeController : MonoBehaviour
             player.SetActive(true);
         }
 
-        foreach (TaskObject task in taskController.tasks)
+        foreach (TaskButtonController taskButton in taskController.tasks)
         {
-            task.deliveryPackage.gameObject.SetActive(false);
+            taskButton.taskInfo.deliveryPackage.gameObject.SetActive(false);
         }
     }
 }

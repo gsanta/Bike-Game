@@ -5,42 +5,43 @@ using UnityEngine;
 public class TaskController : MonoBehaviour
 {
 
-    public List<TaskObject> tasks = new List<TaskObject>();
-    public TaskObject templateTaskObject;
+    public List<TaskButtonController> tasks = new List<TaskButtonController>();
+    public TaskButtonController templateTaskButton;
     
     [HideInInspector] public PackageService packageService;
 
     void Start()
     {
-        templateTaskObject.gameObject.SetActive(false);
+        templateTaskButton.gameObject.SetActive(false);
 
-        TaskInfo taskInfo = new TaskInfo();
-        taskInfo.description = "First task";
-        taskInfo.money = 100;
-        CreateTask(taskInfo);
+        CreateTask("First task", 100);
     }
 
-    public void CreateTask(TaskInfo taskInfo)
+    public void CreateTask(string description, int money)
     {
-        TaskObject newTaskObject = Instantiate(templateTaskObject, templateTaskObject.transform.parent);
-        
+        TaskButtonController newTaskButton = Instantiate(templateTaskButton, templateTaskButton.transform.parent);
+        newTaskButton.gameObject.SetActive(true);
+        newTaskButton.taskController = this;
+
         DeliveryPackage deliveryPackage = packageService.SpawnPackage();
-        newTaskObject.deliveryPackage = deliveryPackage;
+
+        TaskInfo taskInfo = new TaskInfo(description, money, deliveryPackage);
         
         deliveryPackage.taskController = this;
-        deliveryPackage.taskObject = newTaskObject;
+        deliveryPackage.taskInfo = taskInfo;
 
-        tasks.Add(newTaskObject);
+        tasks.Add(newTaskButton);
     }
 
-    public void AssignTask(TaskObject taskObject)
+    public void AssignTask(PlayerController player, TaskInfo taskInfo)
     {
+        taskInfo.deliveryPackage.AssignTo(player);
         //taskObject.taskInfo.taskState = TaskInfo.TaskState.ASSIGNED;
     }
 
-    public void FinishTask(TaskObject taskObject)
+    public void FinishTask(TaskInfo taskInfo)
     {
-        taskObject.taskInfo.taskState = TaskInfo.TaskState.FINISHED;
+        taskInfo.taskState = TaskInfo.TaskState.FINISHED;
     }
 
     public event EventHandler TaskFinished;

@@ -10,7 +10,10 @@ public class PlayerSpawner : MonoBehaviour
     public UIController canvasController;
     public GameObject homeControllerObject;
 
+    private int counter = 0;
+
     private List<GameObject> players = new List<GameObject>();
+    private PlayerController mainPlayer;
 
     private void Awake()
     {
@@ -26,20 +29,26 @@ public class PlayerSpawner : MonoBehaviour
     {
         if (PhotonNetwork.IsConnected)
         {
-            SpawnPlayer();
+            SpawnPlayer(true);
         }
     }
 
-    public void SpawnPlayer()
+    public void SpawnPlayer(bool isMainPlayer)
     {
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
 
         player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
         PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.playerId = counter++;
         players.Add(player);
 
         playerController.canvasController = canvasController;
         playerController.homeControllerObject = homeControllerObject;
+
+        if (isMainPlayer)
+        {
+            mainPlayer = playerController;
+        }
     }
 
     public void Die(string damager)
@@ -63,7 +72,12 @@ public class PlayerSpawner : MonoBehaviour
         yield return new WaitForSeconds(respawnTime);
 
         UIController.instance.deathScreen.SetActive(false);
-        SpawnPlayer();
+        SpawnPlayer(false);
+    }
+
+    public PlayerController GetPlayer()
+    {
+        return mainPlayer;
     }
 
     public List<GameObject> GetPlayers()

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    public int playerId;
     public Transform viewPoint;
     public float mouseSensitivity = 1f;
     public float moveSpeed = 5f, runSpeed = 8f;
@@ -90,11 +91,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (deliveryPackage)
                 {
-                    deliveryPackage.GetComponent<DeliveryPackage>().ThrowPackage();
+                    deliveryPackage.GetComponent<DeliveryPackage>().FinishDelivery();
                     deliveryPackage = null;
                 } else
                 {
-                    PickupPackage();
+                    //PickupPackage();
                 }
             }
         }
@@ -121,7 +122,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (package)
             {
                 deliveryPackage = package;
-                deliveryPackage.GetComponent<DeliveryPackage>().PickupPackage(gameObject);
+                deliveryPackage.GetComponent<DeliveryPackage>().Pickup(this);
             }
         }
     }

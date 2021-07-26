@@ -5,10 +5,10 @@ public class DeliveryPackage : MonoBehaviour
     public float throwForce = 600;
     public bool canHold = true;
     public GameObject item;
-    public GameObject tempParent;
     public bool isHolding = false;
     public TaskController taskController;
-    public TaskObject taskObject;
+    public TaskInfo taskInfo;
+    private PlayerController owner;
 
     Vector3 objectPos;
     float distance;
@@ -26,7 +26,7 @@ public class DeliveryPackage : MonoBehaviour
         {
             item.GetComponent<Rigidbody>().velocity = Vector3.zero;
             item.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            item.transform.SetParent(tempParent.transform);
+            item.transform.SetParent(owner.transform);
         } else
         {
             objectPos = item.transform.position;
@@ -36,23 +36,26 @@ public class DeliveryPackage : MonoBehaviour
         }
     }
 
-    public void ThrowPackage()
+    public void FinishDelivery()
     {
-        Vector3 throwDir = new Vector3(tempParent.transform.forward.x, 1, tempParent.transform.forward.z);
+        Vector3 throwDir = new Vector3(owner.transform.forward.x, 1, owner.transform.forward.z);
         item.GetComponent<Rigidbody>().AddForce(throwDir * throwForce);
         isHolding = false;
     }
 
-    public void PickupPackage(GameObject player)
+    public void AssignTo(PlayerController player)
     {
-        Debug.Log("picking up package");
-        tempParent = player;
-        isHolding = true;
-        item.GetComponent<Rigidbody>().useGravity = false;
-        item.GetComponent<Rigidbody>().detectCollisions = true;
-        Debug.Log(taskObject);
-        Debug.Log(taskController);
-        taskController.AssignTask(taskObject);
+        owner = player;
+    }
+
+    public void Pickup(PlayerController player)
+    {
+        if (owner == player)
+        {
+            isHolding = true;
+            item.GetComponent<Rigidbody>().useGravity = false;
+            item.GetComponent<Rigidbody>().detectCollisions = true;
+        }
     }
 
     public float GetDistanceTo(GameObject player)
