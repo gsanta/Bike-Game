@@ -35,6 +35,7 @@ public class PlayerSpawner : MonoBehaviour
 
     public void SpawnPlayer(bool isMainPlayer)
     {
+        Debug.Log("spawn player");
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
 
         player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);

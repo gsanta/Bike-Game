@@ -8,12 +8,11 @@ public class DeliveryPackage : MonoBehaviour
     public bool isHolding = false;
     public TaskController taskController;
     public TaskInfo taskInfo;
-    private PlayerController owner;
+    private const float limit = 2;
 
     Vector3 objectPos;
     float distance;
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -24,9 +23,11 @@ public class DeliveryPackage : MonoBehaviour
 
         if (isHolding)
         {
+            PlayerController player = taskInfo.player;
+
             item.GetComponent<Rigidbody>().velocity = Vector3.zero;
             item.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            item.transform.SetParent(owner.transform);
+            item.transform.SetParent(player.transform);
         } else
         {
             objectPos = item.transform.position;
@@ -36,42 +37,30 @@ public class DeliveryPackage : MonoBehaviour
         }
     }
 
-    public void FinishDelivery()
+    public bool IsWithinPickupDistance()
     {
-        Vector3 throwDir = new Vector3(owner.transform.forward.x, 1, owner.transform.forward.z);
+        float distance = Vector3.Distance(transform.position, taskInfo.player.transform.position);
+        if (distance <= limit)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public void Throw()
+    {
+        PlayerController player = taskInfo.player;
+        Vector3 throwDir = new Vector3(player.transform.forward.x, 1, player.transform.forward.z);
         item.GetComponent<Rigidbody>().AddForce(throwDir * throwForce);
         isHolding = false;
     }
 
-    public void AssignTo(PlayerController player)
-    {
-        owner = player;
-    }
-
-    public void Pickup(PlayerController player)
-    {
-        if (owner == player)
-        {
-            isHolding = true;
-            item.GetComponent<Rigidbody>().useGravity = false;
-            item.GetComponent<Rigidbody>().detectCollisions = true;
-        }
-    }
-
-    public float GetDistanceTo(GameObject player)
-    {
-        return Vector3.Distance(item.transform.position, player.transform.position);
-    }
-
-    void OnMouseDown()
+    public void Pickup()
     {
         isHolding = true;
         item.GetComponent<Rigidbody>().useGravity = false;
         item.GetComponent<Rigidbody>().detectCollisions = true;
-    }
-
-    private void OnMouseUp()
-    {
-        isHolding = false;
     }
 }

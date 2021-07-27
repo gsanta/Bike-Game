@@ -6,7 +6,8 @@ public class TaskController : MonoBehaviour
 {
 
     public List<TaskButtonController> tasks = new List<TaskButtonController>();
-    public TaskButtonController templateTaskButton;
+    public GameObject templateTaskButton;
+    public GameObject templateTaskButton2;
     
     [HideInInspector] public PackageService packageService;
 
@@ -19,29 +20,25 @@ public class TaskController : MonoBehaviour
 
     public void CreateTask(string description, int money)
     {
-        TaskButtonController newTaskButton = Instantiate(templateTaskButton, templateTaskButton.transform.parent);
-        newTaskButton.gameObject.SetActive(true);
-        newTaskButton.taskController = this;
-
         DeliveryPackage deliveryPackage = packageService.SpawnPackage();
-
         TaskInfo taskInfo = new TaskInfo(description, money, deliveryPackage);
+        
+        GameObject newTaskButton = Instantiate(templateTaskButton, templateTaskButton.transform.parent);
+        newTaskButton.SetActive(true);
+        TaskButtonController taskButtonController = newTaskButton.GetComponent<TaskButtonController>();
+        taskButtonController.taskInfo = taskInfo;
+        taskButtonController.abcd = "efgh";
+        taskButtonController.playerSpawner = PlayerSpawner.instance;
         
         deliveryPackage.taskController = this;
         deliveryPackage.taskInfo = taskInfo;
 
-        tasks.Add(newTaskButton);
-    }
-
-    public void AssignTask(PlayerController player, TaskInfo taskInfo)
-    {
-        taskInfo.deliveryPackage.AssignTo(player);
-        //taskObject.taskInfo.taskState = TaskInfo.TaskState.ASSIGNED;
+        tasks.Add(taskButtonController);
     }
 
     public void FinishTask(TaskInfo taskInfo)
     {
-        taskInfo.taskState = TaskInfo.TaskState.FINISHED;
+        taskInfo.taskState = TaskInfo.TaskState.DELIVERED;
     }
 
     public event EventHandler TaskFinished;

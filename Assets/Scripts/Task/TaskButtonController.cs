@@ -4,22 +4,26 @@ using UnityEngine.UI;
 public class TaskButtonController : MonoBehaviour
 {
     [HideInInspector] public TaskInfo taskInfo;
-    [HideInInspector] public TaskController taskController;
     [HideInInspector] public PlayerSpawner playerSpawner;
     [HideInInspector] public Toggle toggle;
+    public string abcd;
 
     private void Start()
     {
-        Toggle toggle = gameObject.GetComponent<Toggle>();
-        toggle.onValueChanged.AddListener(delegate
-        {
-            ToggleValueChanged(toggle);
-        });
+        //Toggle toggle = gameObject.GetComponent<Toggle>();
+        //toggle.onValueChanged.AddListener(delegate
+        //{
+        //    ToggleValueChanged(toggle);
+        //});
     }
 
-    public void ToggleValueChanged(Toggle toggle)
+    public void OnClick()
     {
-        Debug.Log("Toggle value changed");
-        taskController.AssignTask(playerSpawner.GetPlayer(), taskInfo);
+        Image img = GetComponent<Image>();
+        img.color = Color.yellow;
+        Debug.Log("Toggle click");
+        Debug.Log(abcd);
+        Debug.Log(taskInfo);
+        taskInfo.AssignTo(playerSpawner.GetPlayer());
     }
 }

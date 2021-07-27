@@ -26,10 +26,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public GameObject playerModel;
     public PlayerData playerData;
 
+    public TaskInfo taskInfo;
+
     [HideInInspector] public UIController canvasController;
     [HideInInspector] public GameObject homeControllerObject;
 
-    private GameObject deliveryPackage;
+
+    public TaskInfo TaskInfo
+    {
+        set
+        {
+            Debug.Log("Setting taskInfo");
+            Debug.Log(value);
+            taskInfo = value;
+        }
+    }
 
     private void Awake()
     {
@@ -38,6 +49,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        Debug.Log("playercontroller start");
         //Cursor.lockState = CursorLockMode.Locked;
 
         cam = Camera.main;
@@ -87,15 +99,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 heatCounter = 0;
             }
 
-            if (Input.GetMouseButtonDown(0))
+
+            if (Input.GetMouseButtonDown(0) && taskInfo != null)
             {
-                if (deliveryPackage)
+                if (!IsPointerOverUIComponent.GetInstance().Test())
                 {
-                    deliveryPackage.GetComponent<DeliveryPackage>().FinishDelivery();
-                    deliveryPackage = null;
-                } else
-                {
-                    //PickupPackage();
+                    if (taskInfo.taskState == TaskInfo.TaskState.PICKEDUP)
+                    {
+                        ThrowPackage();
+                    } else
+                    {
+                        PickupPackage();
+                    }
                 }
             }
         }
@@ -112,17 +127,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    private void ThrowPackage()
+    {
+        if (taskInfo != null)
+        {
+            taskInfo.Delivered();
+        }
+    }
+
     private void PickupPackage()
     {
-        Debug.Log("PlayerController pickup package");
-        if (!deliveryPackage)
+        if (taskInfo != null && taskInfo.taskState == TaskInfo.TaskState.ASSIGNED)
         {
-            GameObject package = PackageService.instance.GetNearestPackage(gameObject);
-
-            if (package)
+            if (taskInfo.deliveryPackage.IsWithinPickupDistance())
             {
-                deliveryPackage = package;
-                deliveryPackage.GetComponent<DeliveryPackage>().Pickup(this);
+                taskInfo.Pickup();
             }
         }
     }
